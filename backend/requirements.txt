@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+rq
+redis
+python-dotenv
+boto3
+reportlab
+pillow
+python-multipart
+reportlab
+python-docx
+docx2pdf
+pymupdf

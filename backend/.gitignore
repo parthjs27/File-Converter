@@ -1,0 +1,26 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env
+
+# Logs
+*.log
+app.log
+
+# Temporary folders for uploads and conversions
+temp/
+converted/
+
+# MacOS specific
+.DS_Store
+
+# VSCode settings
+.vscode/
+
+# AWS credentials or secrets (should be in .env instead)
+*.pem
+*.key
