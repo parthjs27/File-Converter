@@ -1,6 +1,6 @@
 fastapi
 uvicorn
-rq
+rq==1.15
 redis
 python-dotenv
 boto3
