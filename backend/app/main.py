@@ -62,15 +62,17 @@ async def upload_file(file: UploadFile = File(...), output_format: str = "pdf"):
             f.write(await file.read())
         logger.info(f"Saved file to {input_path}")
 
-        # Enqueue task
-        # task_queue.enqueue(convert_file, input_path, output_format, task_id)
-        task_queue.enqueue("app.converter.convert_file", input_path, output_format, task_id)
+        # Enqueue task with function object instead of string reference
+        job = task_queue.enqueue(convert_file, input_path, output_format, task_id)
         logger.info(f"Enqueued conversion task: {task_id}")
 
-        # Save task metadata to Redis
-        task_data = {"output_format": output_format}
+        # Save initial task metadata to Redis
+        task_data = {
+            "status": "processing",
+            "output_format": output_format
+        }
         redis_conn.set(task_id, json.dumps(task_data))
-        logger.info(f"Stored task metadata in Redis for {task_id}")
+        logger.info(f"Stored initial task metadata in Redis for {task_id}")
 
         return {"message": "Processing started", "task_id": task_id}
 
@@ -87,12 +89,30 @@ def check_status(task_id: str):
             return {"error": "Task not found"}
 
         task_info = json.loads(task_data)
-        output_format = task_info["output_format"]
-        s3_key = f"{task_id}.{output_format}"
-        url = generate_presigned_url(s3_key)
-
-        logger.info(f"Generated presigned URL for {s3_key}")
-        return {"download_url": url}
+        status = task_info.get("status", "unknown")
+        
+        if status == "completed":
+            s3_key = task_info.get("s3_key")
+            if s3_key:
+                url = generate_presigned_url(s3_key)
+                if url:
+                    logger.info(f"Generated presigned URL for {s3_key}")
+                    return {"status": "completed", "download_url": url}
+                else:
+                    return {"error": "Failed to generate download URL"}
+            else:
+                return {"error": "No S3 key found for completed task"}
+        
+        elif status == "error":
+            error_msg = task_info.get("error", "Unknown error")
+            logger.error(f"Task {task_id} failed: {error_msg}")
+            return {"error": error_msg}
+        
+        elif status == "processing":
+            return {"status": "processing", "message": "File is being converted"}
+        
+        else:
+            return {"error": "Unknown task status"}
 
     except Exception as e:
         logger.error(f"Error in /status/{task_id}: {str(e)}")
