@@ -216,8 +216,8 @@ export default function Component() {
                 <SelectItem value="png" className="text-white hover:bg-gray-500">
                   .png
                 </SelectItem>
-                <SelectItem value="jpg" className="text-white hover:bg-gray-500">
-                  .jpg
+                <SelectItem value="jpeg" className="text-white hover:bg-gray-500">
+                  .jpeg
                 </SelectItem>
               </SelectContent>
             </Select>

@@ -10,3 +10,6 @@ python-multipart
 reportlab
 python-docx
 pymupdf
+pdf2docx
+pytesseract
+docx2pdf

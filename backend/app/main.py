@@ -2,7 +2,7 @@ import os
 import uuid
 import json
 import logging
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from redis import Redis
 from rq import Queue
@@ -40,7 +40,7 @@ ALLOWED_INPUT_FORMATS = [".docx", ".doc", ".txt", ".rtf", ".pdf", ".jpeg", ".jpg
 ALLOWED_OUTPUT_FORMATS = [".pdf", ".docx", ".png", ".jpeg"]
 
 @app.post("/upload")
-async def upload_file(file: UploadFile = File(...), output_format: str = "pdf"):
+async def upload_file(file: UploadFile = File(...), output_format: str = Form(...)):
     ext = os.path.splitext(file.filename)[1].lower()
 
     logger.info(f"Received file upload: {file.filename}, target format: {output_format}")
