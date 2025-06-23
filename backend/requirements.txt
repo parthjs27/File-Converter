@@ -1,4 +1,5 @@
 fastapi
+mangum
 uvicorn
 rq==1.15
 redis

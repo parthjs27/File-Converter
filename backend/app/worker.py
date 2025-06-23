@@ -14,11 +14,15 @@ load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
 S3_BUCKET = os.getenv("S3_BUCKET")
 print(f"[worker] Loaded S3_BUCKET: {S3_BUCKET}")
 
+# Redis connection using environment variables
+redis_host = os.getenv("REDIS_HOST", "localhost")
+redis_port = int(os.getenv("REDIS_PORT", 6379))
+redis_conn = Redis(host=redis_host, port=redis_port)
+
 # Import the function that will be used by RQ
 from app.converter import convert_file
 
-# Set up Redis and Queue
-redis_conn = Redis()
+# Set up Queue
 listen_queues = ['default']
 
 if __name__ == '__main__':

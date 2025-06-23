@@ -24,3 +24,7 @@ converted/
 # AWS credentials or secrets (should be in .env instead)
 *.pem
 *.key
+
+lambda_build/
+lambda_api.zip
+output.txt
