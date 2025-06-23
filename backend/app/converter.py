@@ -1,5 +1,5 @@
 import os
-import fitz  # PyMuPDF
+import fitz
 import json
 import shutil
 import logging
