@@ -7,9 +7,9 @@ load_dotenv()
 
 logger = logging.getLogger(__name__)
 
-AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
-AWS_REGION = os.getenv("AWS_REGION")
+AWS_ACCESS_KEY_ID = os.getenv("MY_AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("MY_AWS_SECRET_ACCESS_KEY")
+AWS_REGION = os.getenv("MY_AWS_REGION")
 S3_BUCKET = os.getenv("S3_BUCKET")
 
 logger.info(f"[DEBUG] Loaded S3_BUCKET: {S3_BUCKET}")

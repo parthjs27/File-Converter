@@ -1,0 +1,7 @@
+fastapi
+mangum
+redis
+rq==1.15
+python-dotenv
+boto3
+python-multipart
