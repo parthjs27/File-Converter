@@ -11,47 +11,14 @@ import {
 } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
 import { Ionicons } from '@expo/vector-icons';
+import { fileConverterApi } from './api';
 
 const { width } = Dimensions.get('window');
-
-// Type definitions
-interface FileConverterResponse {
-  task_id: string;
-}
-
-interface StatusResponse {
-  status: 'completed' | 'processing' | 'error';
-  download_url?: string;
-  error?: string;
-}
 
 interface OutputFormat {
   label: string;
   value: string;
 }
-
-// Mock API functions - replace with your actual API endpoints
-const fileConverterApi = {
-  uploadFile: async (file: DocumentPicker.DocumentPickerAsset, outputFormat: string): Promise<FileConverterResponse> => {
-    // Simulate API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ task_id: 'mock_task_' + Date.now() });
-      }, 1000);
-    });
-  },
-  checkStatus: async (taskId: string): Promise<StatusResponse> => {
-    // Simulate API call
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          status: 'completed',
-          download_url: 'https://example.com/download/' + taskId
-        });
-      }, 2000);
-    });
-  }
-};
 
 export default function FileConverterApp() {
   const [selectedFile, setSelectedFile] = useState<DocumentPicker.DocumentPickerAsset | null>(null);
